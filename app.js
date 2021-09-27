@@ -18,9 +18,7 @@ app.use(express.json());
 
 // GET
 app.get("/api/banks", (req, res) => {
-  setTimeout(() => {
-    res.status(200).json(BANKS);
-  }, 1000);
+      res.status(200).json(BANKS);
 });
 
 // POST
