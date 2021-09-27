@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>REST API</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="index.html"
+          >Banks management page</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="calc.html">Mortgage calculator</a>
+      </li>
+    </ul>
+    <div class="container pt-3" id="app" v-cloak>
+      <h1>Banks management page</h1>
+
+      <form class="form-inline mb-3" @submit.prevent="createBank">
+        <div class="form-group mr-5">
+          <label for="bank_name" class="mr-3">Bank name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="bank_name"
+            v-model="form.bank_name"
+          />
+        </div>
+        <div class="form-group mr-5">
+          <label for="interest_rate" class="mr-3">Interest rate (in %):</label>
+          <input
+            type="text"
+            class="form-control"
+            id="interest_rate"
+            v-model="form.interest_rate"
+          />
+        </div>
+        <div class="form-group mr-5">
+          <label for="maximum_loan" class="mr-3">Maximum loan (in $):</label>
+          <input
+            type="text"
+            class="form-control"
+            id="maximum_loan"
+            v-model="form.maximum_loan"
+          />
+        </div>
+        <div class="form-group mr-5">
+          <label for="minimum_down_paymen" class="mr-3"
+            >Minimum down payment (in %):</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="minimum_down_paymen"
+            v-model="form.minimum_down_payment"
+          />
+        </div>
+        <div class="form-group mr-5">
+          <label for="loan_term" class="mr-3">Loan term (in month):</label>
+          <input
+            type="text"
+            class="form-control"
+            id="loan_term"
+            v-model="form.loan_term"
+          />
+        </div>
+        <button class="btn btn-primary" type="submit" :disabled="!canCreate">
+          Create
+        </button>
+      </form>
+
+      <div v-if="loading">
+        <loader />
+      </div>
+      <div v-else-if="banks.length">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Bank</th>
+              <th scope="col">Rate,%</th>
+              <th scope="col">Max. loan, $</th>
+              <th scope="col">Min. down payment, %</th>
+              <th scope="col">Term, month</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody v-for="bank in banks">
+            <tr>
+              <th scope="row">{{bank.bank_name}}</th>
+              <td>{{bank.interest_rate}}</td>
+              <td>{{bank.maximum_loan}}</td>
+              <td>{{bank.minimum_down_payment}}</td>
+              <td>{{bank.loan_term}}</td>
+              <td>
+                <button class="btn btn-danger" @click="removeBank(bank.id)">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <ul class="list-group list-group-horizontal" v-for="bank in banks">
+          <li class="list-group-item">{{bank.bank_name}}</li>
+          <li class="list-group-item">Rate:{{bank.interest_rate}}%</li>
+          <li class="list-group-item">Max loan:{{bank.maximum_loan}} $</li>
+          <li class="list-group-item">
+            Min. down payment: {{bank.minimum_down_payment}} %
+          </li>
+          <li class="list-group-item">Term:{{bank.loan_term}}mon.</li>
+          <li class="list-group-item">
+            <button class="btn btn-danger" @click="removeBank(bank.id)">
+              Remove
+            </button>
+          </li>
+        </ul> -->
+      </div>
+      <p v-else>Banks is not created</p>
+    </div>
+
+    <script type="module" src="frontend.js"></script>
+  </body>
+</html>

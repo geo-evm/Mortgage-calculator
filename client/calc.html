@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>Calc</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">Banks management page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="calc.html"
+          >Mortgage calculator</a
+        >
+      </li>
+    </ul>
+    <div class="container pt-3" id="app" v-cloak>
+      <h1>Mortgage calculator</h1>
+      <form action="">
+        <label for="" class="form-select">Select bank:</label>
+        <select
+          v-model="selected"
+          class="form-select form-select-lg mb-3"
+          aria-label=".form-select-lg example"
+        >
+          <option selected v-for="bank in banks" v-bind:value="bank"
+            >{{ bank.bank_name }}</option
+          >
+        </select>
+        <br />
+        <label for="initial_loan" class="form-label">Initial loan</label>
+        <input
+          v-model="initial_loan_value"
+          type="range"
+          class="form-range"
+          v-bind:min="parseInt(selected.maximum_loan) *
+          parseInt(selected.minimum_down_payment) / 100"
+          v-bind:max="selected.maximum_loan"
+          id="initial_loan"
+        />
+        <span>{{ selected.maximum_loan }} </span>
+        <br />
+        <input
+          type="number"
+          v-model="initial_loan_value"
+          value="initial_loan_value"
+          v-bind:min="parseInt(selected.maximum_loan) *
+          parseInt(selected.minimum_down_payment) / 100"
+          v-bind:max="selected.maximum_loan"
+        />
+        <br />
+
+        <label for="down_payment" class="form-label">Down payment</label>
+        <input
+          v-model="down_payment"
+          type="range"
+          class="form-range"
+          v-bind:min="parseInt(initial_loan_value) *
+          parseInt(selected.minimum_down_payment) / 100"
+          v-bind:max="initial_loan_value"
+          id="initial_loan"
+        />
+        <span>{{ initial_loan_value }} </span>
+        <br />
+        <input
+          type="number"
+          v-model="down_payment"
+          value="down_payment"
+          min="0"
+          v-bind:max="initial_loan_value"
+        />
+
+        <br />
+        <br />
+        <h3>
+          Monthly payment: {{ Math.round(((parseInt(initial_loan_value) -
+          down_payment) * ((parseInt(selected.interest_rate)/100) / 12) * (( 1 +
+          ((parseInt(selected.interest_rate)/100) / 12)) **
+          parseInt(selected.loan_term))) / ((( 1 +
+          ((parseInt(selected.interest_rate)/100) / 12))**
+          parseInt(selected.loan_term))-1)) }} $
+        </h3>
+        <p></p>
+      </form>
+    </div>
+
+    <script type="module" src="frontend.js"></script>
+  </body>
+</html>
