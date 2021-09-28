@@ -48,4 +48,4 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "index.html"));
 });
 
-app.listen(PORT, () => console.log("Server has been started on port 3000..."));
+app.listen(PORT, () => console.log("Server has been started..."));
